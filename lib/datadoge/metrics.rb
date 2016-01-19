@@ -3,16 +3,18 @@ require 'statsd'
 module Datadoge
   class Metrics
 
-    EVENT_BASE_NAME = "app.#{ENV['app_name']}"
-
     def self.increment(event)
-      statsd.increment("#{EVENT_BASE_NAME}.#{event}")
+      statsd.increment("#{prefix}.#{event}")
     end
 
     def self.time(event)
-      statsd.time("#{EVENT_BASE_NAME}.#{event}") do
+      statsd.time("#{prefix}.#{event}") do
         yield
       end
+    end
+
+    def prefix
+      "app.#{ENV['app_name']}"
     end
 
     def self.statsd

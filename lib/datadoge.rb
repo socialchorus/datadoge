@@ -1,4 +1,5 @@
 require 'datadoge/version'
+require 'datadoge/metrics'
 require 'gem_config'
 require 'statsd'
 

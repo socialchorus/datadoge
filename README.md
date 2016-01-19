@@ -35,6 +35,14 @@ To enable Datadog reporting in non-production environments, add the following to
       config.environments = ['staging', 'qa', 'production']
     end
 
+This will enable Rails metrics for controllers and actions automatically.
+
+For more fine grained metrics, you can use the Metrics class
+
+    Datadoge::Metrics.time("#{self.class.name}.#{__method__.to_s}.time") do
+      #do some interesting stuff.
+    end
+
 ## Contributing
 
 1. Fork it ( https://github.com/metova/datadoge/fork )

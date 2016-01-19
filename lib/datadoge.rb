@@ -11,12 +11,10 @@ module Datadoge
 
   class Railtie < Rails::Railtie
     initializer "datadoge.configure_rails_initialization" do |app|
-      puts 'running datadoge'
       $statsd = Statsd.new("localhost", 8125)
 
       ActiveSupport::Notifications.subscribe(/process_action.action_controller/) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)
-        puts event.inspect
         controller = "#{event.payload[:controller]}"
         action = "action:#{event.payload[:action]}"
         format = "format:#{event.payload[:format] || 'all'}"
@@ -39,13 +37,13 @@ module Datadoge
         value = payload[:value]
         tags = payload[:tags]
         key_name = "app.#{ENV['app_name']}.#{payload[:controller]}.#{payload[:controller_action]}.#{measurement}"
-        puts key_name
         if action == :increment
           $statsd.increment key_name, :tags => tags
         else
           $statsd.histogram key_name, value, :tags => tags
         end
       end
+
     end
   end
 

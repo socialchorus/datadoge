@@ -11,7 +11,7 @@ works on servers which have the Datadog Agent installed.
 
 Add this line to your application's Gemfile:
 
-    gem 'datadoge'
+    gem 'datadoge', git: 'https://github.com/socialchorus/datadoge.git', branch: 'master'
 
 And then execute:
 
@@ -28,8 +28,11 @@ By default, performance metrics are only reported to Datadog from production env
 
 To enable Datadog reporting in non-production environments, add the following to an initializer:
 
+    ENV['app_name'] = 'pony_express'
+    ENV['INSTRUMENTATION_HOSTNAME'] = Socket.gethostname
+
     Datadoge.configure do |config|
-      config.environments = ['staging', 'production']
+      config.environments = ['staging', 'qa', 'production']
     end
 
 ## Contributing

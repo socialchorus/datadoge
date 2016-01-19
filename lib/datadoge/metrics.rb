@@ -13,7 +13,7 @@ module Datadoge
       end
     end
 
-    def prefix
+    def self.prefix
       "app.#{ENV['app_name']}"
     end
 

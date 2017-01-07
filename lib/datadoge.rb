@@ -1,7 +1,7 @@
 require 'datadoge/version'
 require 'datadoge/metrics'
+require 'datadog/statsd'
 require 'gem_config'
-require 'statsd'
 
 module Datadoge
   include GemConfig::Base
@@ -12,7 +12,7 @@ module Datadoge
 
   class Railtie < Rails::Railtie
     initializer "datadoge.configure_rails_initialization" do |app|
-      $statsd = Statsd.new("localhost", 8125)
+      $statsd = Datadog::Statsd.new("localhost", 8125)
 
       ActiveSupport::Notifications.subscribe(/process_action.action_controller/) do |*args|
         event = ActiveSupport::Notifications::Event.new(*args)

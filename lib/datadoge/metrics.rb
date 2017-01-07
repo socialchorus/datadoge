@@ -1,4 +1,4 @@
-require 'statsd'
+require 'datadog/statsd'
 
 module Datadoge
   class Metrics
@@ -18,7 +18,7 @@ module Datadoge
     end
 
     def self.statsd
-      Statsd.new("localhost", 8125)
+      Datadog::Statsd.new("localhost", 8125)
     end
   end
 end

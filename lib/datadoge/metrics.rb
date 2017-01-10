@@ -14,7 +14,7 @@ module Datadoge
     end
 
     def self.prefix
-      "app.#{ENV['app_name']}"
+      "app.#{ENV['APP_NAME']}"
     end
 
     def self.statsd

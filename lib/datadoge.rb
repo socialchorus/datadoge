@@ -37,7 +37,7 @@ module Datadoge
         measurement = payload[:measurement]
         value = payload[:value]
         tags = payload[:tags]
-        key_name = "app.#{ENV['app_name']}.#{payload[:controller]}.#{payload[:controller_action]}.#{measurement}"
+        key_name = "app.#{ENV['APP_NAME']}.#{payload[:controller]}.#{payload[:controller_action]}.#{measurement}"
         if action == :increment
           $statsd.increment key_name, :tags => tags
         else

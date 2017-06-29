@@ -3,8 +3,16 @@ require 'datadog/statsd'
 module Datadoge
   # A wrapper for a Datadog::Statsd instance with proper prefixes applied.
   class Metrics
+    def self.app_name=(val)
+      @app_name = val
+    end
+
+    def self.app_name
+      @app_name || ENV['APP_NAME']
+    end
+
     def self.prefix
-      "app.#{ENV['APP_NAME']}"
+      "app.#{app_name}"
     end
 
     def self.statsd

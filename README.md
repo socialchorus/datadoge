@@ -28,20 +28,45 @@ By default, performance metrics are only reported to Datadog from production env
 
 To enable Datadog reporting in non-production environments, add the following to an initializer:
 
-    ENV['app_name'] = 'pony_express'
-    ENV['INSTRUMENTATION_HOSTNAME'] = Socket.gethostname
+```ruby
+ENV['app_name'] = 'pony_express'
+ENV['INSTRUMENTATION_HOSTNAME'] = Socket.gethostname
 
-    Datadoge.configure do |config|
-      config.environments = ['staging', 'qa', 'production']
-    end
+Datadoge.configure do |config|
+  config.environments = ['staging', 'qa', 'production']
+end
+```
 
 This will enable Rails metrics for controllers and actions automatically.
 
-For more fine grained metrics, you can use the Metrics class
+For custom metrics, you can use the Metrics class
 
-    Datadoge::Metrics.time("#{self.class.name}.#{__method__.to_s}.time") do
-      #do some interesting stuff.
-    end
+```ruby
+Datadoge::Metrics.time("something.measured.time") do
+  #do some interesting stuff.
+end
+```
+
+Or to use use directly with ActiveSupport::Notifications, build a class:
+
+```ruby
+class SomeSubscriber < Datadoge::NotificationSubscriber
+  subscribe_to 'perform.job.some_worker'
+
+  def call(name, start, finish, unique_id, payload)
+    # Compiles the k/v pairs into the correct format used by statsd
+    tags = compile_tags payload.slice(:program_id, :category)
+
+    # Timing performance for the job
+    timing "some_worker.job.performance", ms(start, finish), tags: tags
+    # Count how many times the job is performed
+    increment 'some_worker.job.perform', tags: tags
+  end
+end
+```
+
+see lib/datadoge/notification_subscriber.rb for more.
+
 
 ## Contributing
 

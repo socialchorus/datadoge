@@ -1,4 +1,5 @@
 require 'datadog/statsd'
+require 'config'
 
 module Datadoge
   # A wrapper for a Datadog::Statsd instance with proper prefixes applied.
@@ -16,7 +17,7 @@ module Datadoge
     end
 
     def self.statsd
-      @statsd ||= Datadog::Statsd.new("localhost", 8125, namespace: self.prefix)
+      @statsd ||= Datadog::Statsd.new("localhost", ENV['STATSD_PORT'].to_i > 0 ? ENV['STATSD_PORT'] : 8125, namespace: self.prefix)
     end
 
     class << self

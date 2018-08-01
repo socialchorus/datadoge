@@ -1,5 +1,4 @@
 require 'datadog/statsd'
-require 'config'
 
 module Datadoge
   # A wrapper for a Datadog::Statsd instance with proper prefixes applied.

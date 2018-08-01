@@ -31,6 +31,7 @@ To enable Datadog reporting in non-production environments, add the following to
 ```ruby
 ENV['app_name'] = 'pony_express'
 ENV['INSTRUMENTATION_HOSTNAME'] = Socket.gethostname
+ENV['INSTRUMENTATION_PORT'] = 8001 #optional, default is 8125
 
 Datadoge.configure do |config|
   config.environments = ['staging', 'qa', 'production']

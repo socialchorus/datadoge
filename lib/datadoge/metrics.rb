@@ -17,7 +17,7 @@ module Datadoge
     end
 
     def self.statsd
-      @statsd ||= Datadog::Statsd.new("localhost", ENV['STATSD_PORT'].to_i > 0 ? ENV['STATSD_PORT'] : 8125, namespace: self.prefix)
+      @statsd ||= Datadog::Statsd.new("localhost", ENV['INSTRUMENTATION_PORT'].to_i > 0 ? ENV['INSTRUMENTATION_PORT'] : 8125, namespace: self.prefix)
     end
 
     class << self
